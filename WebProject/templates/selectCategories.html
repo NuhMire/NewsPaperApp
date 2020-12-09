@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<script>$(window).on('load',function(){$("#navid").remove();});</script>
+<div style= padding:85px;>
+  <h1 style ="text-align: center">Please select your favourite categories </h1> </br></br>
+  <div class="row row-cols-1 row-cols-md-3">
+    {% for category in category %}
+    <div class="col mb-4">
+    <div class="card" id={{category.name}}>
+      <img src="../static/images/{{category.name}}.jpg" class="card-img-top" alt="..." width="200" height="200">
+      <div class="card-body">
+        <h4 class="card-title" >{{category.name}}</h4>
+        <button class="btn btn-primary" id="subscribe{{category.name}}"> Click to subscribe </button>   
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+  <div style="padding-top: 70px;"> 
+    <button type="button" id="SubmitButton" class="btn btn-primary btn-lg btn-block" disabled>Continue </button>
+  </div>
+</div>
+{% load static %}
+<script src="{% static 'js/selectCategories.js'%}"></script>
+{% endblock %}
+

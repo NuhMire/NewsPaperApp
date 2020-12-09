@@ -1,0 +1,97 @@
+	{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% block head %}{% endblock %}
+</head>
+<body>
+	    <!-- jQuery and Bootstrap -->
+    <script type="text/javascript">window.CSRF_TOKEN = "{{ csrf_token }}"; </script> 
+	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+		<script>
+		 $(window).on('load',function(){
+			if(sessionStorage.User!=null){$("#favNav").attr("href", "/get"+(JSON.parse(sessionStorage.User).id))}
+			else
+			{
+				$('#pleaseReg').modal({
+					backdrop: 'static',
+					keyboard: false
+				})
+			}})
+	</script>
+
+    <header class="site-header"></header>
+
+    <main role="main" class="container">
+	<nav id ='navid' class="navbar navbar-expand-lg navbar-light" style="background-color: #cdeaff;">
+        <a class="navbar-brand" href="/homepage">
+            News24
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+            <a class="nav-link" href="/homepage">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/getPolitics">Politics</a>
+                    <a class="dropdown-item" href="/getFinance">Finance</a>
+                    <a class="dropdown-item" href="/getSport">Sport</a>
+                    <a class="dropdown-item" href="/getTech">Tech</a>
+                    <a class="dropdown-item" href="/getHealth">Health</a>
+                    <a class="dropdown-item" href="/getEducation">Education</a>
+                </div>
+            </li>
+            <li class="nav-item">
+            <a id ="favNav" class="nav-link" href="#">Favourite Articles</a>
+            </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Account
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="/profile">Profile</a>
+                <a class="dropdown-item" href="/register">Logout</a>
+            </div>
+            </li>
+        </ul>
+        </div>
+    </nav>
+</button>
+	<div class="modal" id="pleaseReg">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+
+		  <!-- Modal Header -->
+		  <div class="modal-header">
+			<h4 class="modal-title">Welcome</h4>
+		  </div>
+
+		  <!-- Modal body -->
+		  <div class="modal-body">
+			<a class="btn btn-primary" href="/register" role="button">Please Register or Login to access the site.</a>
+		  </div>
+
+		</div>
+	  </div>
+	</div>
+    	{% block content %}{% endblock %}
+    </main>
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

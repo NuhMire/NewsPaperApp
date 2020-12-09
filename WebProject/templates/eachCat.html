@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="welcomeText"> 
+{% load static %} 
+<script src="{% static 'js/comments.js' %}"></script>
+</br><h1>{{cat}} Articles</h1></div>
+<div id="welcomeText"></div></br></br>
+<div id="container">
+<div id="groupItem">
+</div>
+</div>
+<script>
+	function articleLikedBy(articleId){
+    $.ajax({
+        url : "/articleLikedBy/",
+        type : "POST",
+		headers: { "X-CSRFToken": window.CSRF_TOKEN },
+        data:{ 
+            'articleId': articleId,
+        },
+        success : function(json) {
+			$("#LikedList"+articleId+" ul").empty();
+			$("#LikedList"+articleId+" ul").append(json.data);
+			$("#LikedList"+articleId).collapse('toggle');
+        },
+    });
+}
+
+function buttonLike(articleId){
+	    $.ajax({
+        url : "/likeArticle/",
+        type : "POST",
+		headers: { "X-CSRFToken": window.CSRF_TOKEN },
+        data:{ 
+            'articleId': articleId,
+            'userId': JSON.parse(sessionStorage.User).id,
+			'type':'like'
+        },
+        success : function(json) {
+			$('#LikeBtn'+articleId).hide();
+			$('#UnlikeBtn'+articleId).show();
+            console.log("success");
+            console.log(json);
+			$("#LikedList"+articleId).collapse('hide')
+        },
+    });
+}
+function buttonUnlike(articleId){
+		$.ajax({
+		url : "/likeArticle/",
+		type : "POST",
+		headers: { "X-CSRFToken": window.CSRF_TOKEN },
+		data:{ 
+			'articleId': articleId,
+			'userId': JSON.parse(sessionStorage.User).id,
+			'type':'unlike'
+		},
+		success : function(json) {
+			$('#UnlikeBtn'+articleId).hide();
+			$('#LikeBtn'+articleId).show();
+			console.log("success");
+			console.log(json);
+			$("#LikedList"+articleId).collapse('hide')
+		}
+		})}
+{% for art in article %}
+		var LikedBy = [{% for x in art.likedBy.values_list %}'{{ x.0|escapejs }}',{% endfor %}]
+		$('#groupItem').append("<div class='jumbotron jumbotron-fluid'> <div class='container'><div class='media'> <img src='{{art.image_url}}' class='mr-3' alt='...' width='100' height='100'> <div class='media-body'> <h4 class='mt-0'>"+`{{art.name}}`+"</h4> <button class='btn btn-link'type='button' data-toggle='collapse' data-target='#collapse{{art.id}}' aria-expanded='false' aria-controls='collapseExample'>Click to read more</button> <button type='button' class='btn btn-outline-danger' id='UnlikeBtn{{art.id}}' style='display:none;' onclick=buttonUnlike({{art.id}})>Unlike</button>  <button type='button' class='btn btn-outline-success' id='LikeBtn{{art.id}}' onclick=buttonLike({{art.id}})>Like</button><button type='button' class='btn btn-outline-info' onclick=articleLikedBy({{art.id}})>Find who liked this article</button><div id='LikedList{{art.id}}' class='collapse'><ul class='list-group list-group-flush'></ul></div></div></div><div class='collapse' id='collapse{{art.id}}'> <div class='card card-body'>"+`{{art.articleText}}`+"</div> </div></div><div>"+getComments({{art.id}})+"</div></div></div>");
+		$('#sendMessageButton{{art.id}}').on('click',{artId:{{art.id}},prntId:-1},postComment);
+		if(LikedBy.includes((JSON.parse(sessionStorage.User).id).toString())){$('#LikeBtn{{art.id}}').hide(); $('#UnlikeBtn{{art.id}}').show();}
+{% endfor %}
+</script>
+{%endblock%}

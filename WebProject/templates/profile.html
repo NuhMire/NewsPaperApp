@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+		<link rel="stylesheet" href="{%static 'styles/profile.css'%}">
+        <div class='container-small border bg-primary mt-3 mb-3'>
+            <div class='h1 text-center  text-white'>
+                PROFILE
+            </div>
+        </div>
+        <div class='container border bg-light mt-3 mb-3'>
+            <div class='h6 text-center '>
+                <div>
+                    <div class='h3'>
+								<div id="updAlert" class="alert alert-success" style="display: none;">
+									<strong>Success!</strong> Profile Picture Updated Successfully.
+								</div>
+								<div id="delAlert" class="alert alert-success" style="display: none;">
+									<strong>Success!</strong> Profile Picture Deleted Successfully.
+								</div>
+								<div id="sucAlert" class="alert alert-success" style="display: none;">
+									<strong>Success!</strong> Profile Updated Successfully.
+								</div>
+								<div id="sucAlert2" class="alert alert-success" style="display: none;">
+									<strong>Success!</strong> Categories Updated Successfully.
+								</div>
+                        <br>
+                        UPDATE PROFILE
+                    </div>
+                </div>
+                <br>
+				<form id="updateProfilePictureF" method="POST" action="update Profile" enctype="multipart/form-data">
+					{%csrf_token%}
+					<label class=""for="profilePicture ">Profile Picture</label>
+					<div class="form-group  justify-content-center">
+					<img id="dpimg" alt="Profile Picture" class="img-thumbnail" width="100" height="100">
+                    <div class="form-group custom-file">
+						<input type="file" class="custom-file-input" name="theFile" id="profilePictureUpload">
+						<label class="custom-file-label" for="profilePictureUpload">Update Profile Picture</label>
+                    </div>
+					</div>
+					<button id="DeleteProfilePicture" type="button" class="btn btn-warning">Delete Profile Picture</button>
+					<div class="form-group">
+                        
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" value="">
+                    </div>
+                </form>
+                <div>
+                    <div class='h3 form-group'>
+						<br>
+                        FAVOURITE CATEGORIES
+                    </div>
+                </div>
+                <div class="form-group">
+                    <ul id ="listFavourites">
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" >Edit Favourite Categories</button>
+            </br>      
+      
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit Categories</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div id= "likedArticle"></div>
+                    <div id= "listNonFavourites"></div>
+
+                </div>
+                <div class="modal-footer">
+                  <button id="modalSave" type="button" class="btn btn-secondary" data-dismiss="modal">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+                <br>
+                <button id="updateProfileButton" class="btn btn-success">Save Changes</button>
+                <button id="cancelButton" class="btn btn-danger">Cancel</button>
+                <br><br>
+            </div>
+        </div>
+
+    </div>
+<script>var static_url = "{% get_static_prefix %}"</script>
+<script src="{%static 'js/profile.js'%}"></script>
+{% endblock %}    
+
+

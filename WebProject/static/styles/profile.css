@@ -1,0 +1,18 @@
+    input[type="text"] {
+        width: 200px;
+        text-align: center;
+        margin: auto;
+        }
+    input[type="date"] {
+        width: 200px;
+        text-align: center;
+        margin: auto;
+    }
+    input[type="email"] {
+        width: 200px;
+        text-align: center;
+        margin: auto;
+    }
+    ul {
+        list-style-type: none;
+    }
